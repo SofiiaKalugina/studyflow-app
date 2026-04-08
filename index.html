@@ -5,115 +5,235 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StudyFlow | Student Planner</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
   <main class="app-shell">
-    <section class="hero">
-      <p class="eyebrow">Smart planning for students</p>
-      <h1>StudyFlow</h1>
-      <p class="subtitle">
-        A clean and practical planner for study, work, and personal life.
+    <header class="topbar">
+      <div class="brand">
+        <p class="eyebrow" data-i18n="app_kicker">Smart planner</p>
+        <h1>StudyFlow</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="en" type="button">EN</button>
+          <button class="lang-btn" data-lang="pl" type="button">PL</button>
+          <button class="lang-btn" data-lang="ru" type="button">RU</button>
+          <button class="lang-btn" data-lang="uk" type="button">UA</button>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="main-nav" id="mainNav">
+      <button class="tab-btn active" data-tab="tasks" type="button" data-i18n="tab_tasks">Tasks</button>
+      <button class="tab-btn" data-tab="calendar" type="button" data-i18n="tab_calendar">Calendar</button>
+      <button class="tab-btn" data-tab="stats" type="button" data-i18n="tab_stats">Stats</button>
+      <button class="tab-btn" data-tab="settings" type="button" data-i18n="tab_settings">Settings</button>
+    </nav>
+
+    <section class="hero-card">
+      <p class="hero-text" data-i18n="hero_text">
+        Organize study, work, and personal tasks in one place with a clean and focused workflow.
       </p>
     </section>
 
-    <section class="planner-card">
-      <div class="top-bar">
-        <div>
-          <h2>My Tasks</h2>
-          <p class="top-bar-text">Plan smarter, stay organized, and keep track of what matters.</p>
+    <section class="tab-panel active" id="tasksPanel">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker" data-i18n="tasks_kicker">Planner</p>
+            <h2 data-i18n="tasks_title">My Tasks</h2>
+          </div>
+          <button id="clearCompletedBtn" class="ghost-btn" type="button" data-i18n="clear_completed">
+            Clear completed
+          </button>
         </div>
-        <button id="clearCompletedBtn" class="ghost-btn">Clear completed</button>
+
+        <form id="taskForm" class="task-form">
+          <div class="field field-wide">
+            <label for="taskInput" data-i18n="label_task">Task</label>
+            <input
+              type="text"
+              id="taskInput"
+              maxlength="120"
+              required
+              placeholder="Enter your task..."
+            />
+          </div>
+
+          <div class="field">
+            <label for="categorySelect" data-i18n="label_category">Category</label>
+            <select id="categorySelect">
+              <option value="Study" data-i18n="cat_study">Study</option>
+              <option value="Work" data-i18n="cat_work">Work</option>
+              <option value="Personal" data-i18n="cat_personal">Personal</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="prioritySelect" data-i18n="label_priority">Priority</label>
+            <select id="prioritySelect">
+              <option value="Low" data-i18n="prio_low">Low</option>
+              <option value="Medium" selected data-i18n="prio_medium">Medium</option>
+              <option value="High" data-i18n="prio_high">High</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="dueDateInput" data-i18n="label_due_date">Due date</label>
+            <input type="date" id="dueDateInput" />
+          </div>
+
+          <button type="submit" class="primary-btn" id="submitTaskBtn" data-i18n="add_task">
+            Add Task
+          </button>
+        </form>
+
+        <div class="controls">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search tasks..." />
+          </div>
+
+          <div class="select-group">
+            <select id="filterSelect">
+              <option value="All" data-i18n="filter_all">All categories</option>
+              <option value="Study" data-i18n="cat_study">Study</option>
+              <option value="Work" data-i18n="cat_work">Work</option>
+              <option value="Personal" data-i18n="cat_personal">Personal</option>
+              <option value="Completed" data-i18n="filter_completed">Completed</option>
+              <option value="Pending" data-i18n="filter_pending">Pending</option>
+            </select>
+
+            <select id="sortSelect">
+              <option value="newest" data-i18n="sort_newest">Newest first</option>
+              <option value="oldest" data-i18n="sort_oldest">Oldest first</option>
+              <option value="priorityHigh" data-i18n="sort_priority_high">Priority: high to low</option>
+              <option value="priorityLow" data-i18n="sort_priority_low">Priority: low to high</option>
+              <option value="dueSoon" data-i18n="sort_due_soon">Due date: soonest</option>
+            </select>
+          </div>
+        </div>
+
+        <ul id="taskList" class="task-list"></ul>
+
+        <div id="emptyState" class="empty-state">
+          <h3 data-i18n="empty_title">No tasks yet</h3>
+          <p data-i18n="empty_text">Start by adding your first task.</p>
+        </div>
       </div>
+    </section>
 
-      <form id="taskForm" class="task-form">
-        <div class="field field-wide">
-          <label for="taskInput">Task</label>
-          <input
-            type="text"
-            id="taskInput"
-            placeholder="Enter your task..."
-            maxlength="120"
-            required
-          />
+    <section class="tab-panel" id="calendarPanel">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker" data-i18n="calendar_kicker">Overview</p>
+            <h2 data-i18n="calendar_title">Calendar View</h2>
+          </div>
         </div>
 
-        <div class="field">
-          <label for="categorySelect">Category</label>
-          <select id="categorySelect">
-            <option value="Study">Study</option>
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-          </select>
+        <div id="calendarList" class="calendar-list"></div>
+
+        <div id="calendarEmpty" class="empty-state show">
+          <h3 data-i18n="calendar_empty_title">No dated tasks</h3>
+          <p data-i18n="calendar_empty_text">Add tasks with due dates to see them here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="statsPanel">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker" data-i18n="stats_kicker">Progress</p>
+            <h2 data-i18n="stats_title">Statistics</h2>
+          </div>
         </div>
 
-        <div class="field">
-          <label for="prioritySelect">Priority</label>
-          <select id="prioritySelect">
-            <option value="Low">Low</option>
-            <option value="Medium" selected>Medium</option>
-            <option value="High">High</option>
-          </select>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label" data-i18n="stat_all">All tasks</span>
+            <strong id="allCount">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label" data-i18n="stat_completed">Completed</span>
+            <strong id="completedCount">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label" data-i18n="stat_pending">Pending</span>
+            <strong id="pendingCount">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label" data-i18n="stat_high">High priority</span>
+            <strong id="highCount">0</strong>
+          </article>
         </div>
 
-        <div class="field">
-          <label for="dueDateInput">Due date</label>
-          <input type="date" id="dueDateInput" />
+        <div class="insights-grid">
+          <div class="insight-card">
+            <h3 data-i18n="insight_categories">Tasks by category</h3>
+            <p id="categoryStats">—</p>
+          </div>
+
+          <div class="insight-card">
+            <h3 data-i18n="insight_completion">Completion rate</h3>
+            <p id="completionRate">0%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="settingsPanel">
+      <div class="panel-card">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker" data-i18n="settings_kicker">Preferences</p>
+            <h2 data-i18n="settings_title">Settings</h2>
+          </div>
         </div>
 
-        <button type="submit" class="primary-btn">Add Task</button>
-      </form>
+        <div class="settings-grid">
+          <div class="setting-card">
+            <h3 data-i18n="setting_language_title">Language</h3>
+            <p data-i18n="setting_language_text">
+              Choose the language you want to use in the app.
+            </p>
+          </div>
 
-      <section class="controls">
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="Search tasks..." />
+          <div class="setting-card">
+            <h3 data-i18n="setting_storage_title">Storage</h3>
+            <p data-i18n="setting_storage_text">
+              Your tasks are currently saved in your browser.
+            </p>
+          </div>
+
+          <div class="setting-card">
+            <h3 data-i18n="setting_future_title">Future upgrade</h3>
+            <p data-i18n="setting_future_text">
+              Later, this app can be connected to Supabase for sign up, sign in, and cloud sync.
+            </p>
+          </div>
+
+          <div class="setting-card">
+            <h3 data-i18n="setting_reset_title">Reset</h3>
+            <p data-i18n="setting_reset_text">
+              Remove all saved tasks from this browser.
+            </p>
+            <button class="danger-btn" id="resetAllBtn" type="button" data-i18n="reset_button">
+              Delete all tasks
+            </button>
+          </div>
         </div>
-
-        <div class="select-group">
-          <select id="filterSelect">
-            <option value="All">All categories</option>
-            <option value="Study">Study</option>
-            <option value="Work">Work</option>
-            <option value="Personal">Personal</option>
-            <option value="Completed">Completed</option>
-            <option value="Pending">Pending</option>
-          </select>
-
-          <select id="sortSelect">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="priorityHigh">Priority: high to low</option>
-            <option value="priorityLow">Priority: low to high</option>
-            <option value="dueSoon">Due date: soonest</option>
-          </select>
-        </div>
-      </section>
-
-      <section class="stats-grid">
-        <article class="stat-card">
-          <span class="stat-label">All tasks</span>
-          <strong id="allCount">0</strong>
-        </article>
-
-        <article class="stat-card">
-          <span class="stat-label">Completed</span>
-          <strong id="completedCount">0</strong>
-        </article>
-
-        <article class="stat-card">
-          <span class="stat-label">Pending</span>
-          <strong id="pendingCount">0</strong>
-        </article>
-      </section>
-
-      <ul id="taskList" class="task-list"></ul>
-
-      <div id="emptyState" class="empty-state">
-        <h3>No tasks yet</h3>
-        <p>Start by adding your first task and build your workflow.</p>
       </div>
     </section>
   </main>
-
-  <script src="script.js"></script>
 </body>
 </html>
