@@ -7,42 +7,110 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app">
+  <main class="app-shell">
     <section class="hero">
-      <p class="eyebrow">Smart student planning</p>
+      <p class="eyebrow">Smart planning for students</p>
       <h1>StudyFlow</h1>
       <p class="subtitle">
-        A clean and focused planner for study, work, and personal tasks.
+        A clean and practical planner for study, work, and personal life.
       </p>
     </section>
 
     <section class="planner-card">
-      <form id="taskForm" class="task-form">
-        <input type="text" id="taskInput" placeholder="Enter a task..." required />
-
-        <select id="categorySelect">
-          <option value="Study">Study</option>
-          <option value="Work">Work</option>
-          <option value="Personal">Personal</option>
-        </select>
-
-        <select id="prioritySelect">
-          <option value="Low">Low priority</option>
-          <option value="Medium">Medium priority</option>
-          <option value="High">High priority</option>
-        </select>
-
-        <button type="submit">Add Task</button>
-      </form>
-
-      <div class="toolbar">
-        <button class="filter-btn active" data-filter="All">All</button>
-        <button class="filter-btn" data-filter="Study">Study</button>
-        <button class="filter-btn" data-filter="Work">Work</button>
-        <button class="filter-btn" data-filter="Personal">Personal</button>
+      <div class="top-bar">
+        <div>
+          <h2>My Tasks</h2>
+          <p class="top-bar-text">Plan smarter, stay organized, and keep track of what matters.</p>
+        </div>
+        <button id="clearCompletedBtn" class="ghost-btn">Clear completed</button>
       </div>
 
+      <form id="taskForm" class="task-form">
+        <div class="field field-wide">
+          <label for="taskInput">Task</label>
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter your task..."
+            maxlength="120"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect">
+            <option value="Study">Study</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="prioritySelect">Priority</label>
+          <select id="prioritySelect">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="dueDateInput">Due date</label>
+          <input type="date" id="dueDateInput" />
+        </div>
+
+        <button type="submit" class="primary-btn">Add Task</button>
+      </form>
+
+      <section class="controls">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search tasks..." />
+        </div>
+
+        <div class="select-group">
+          <select id="filterSelect">
+            <option value="All">All categories</option>
+            <option value="Study">Study</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+          </select>
+
+          <select id="sortSelect">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="priorityHigh">Priority: high to low</option>
+            <option value="priorityLow">Priority: low to high</option>
+            <option value="dueSoon">Due date: soonest</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-label">All tasks</span>
+          <strong id="allCount">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-label">Completed</span>
+          <strong id="completedCount">0</strong>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-label">Pending</span>
+          <strong id="pendingCount">0</strong>
+        </article>
+      </section>
+
       <ul id="taskList" class="task-list"></ul>
+
+      <div id="emptyState" class="empty-state">
+        <h3>No tasks yet</h3>
+        <p>Start by adding your first task and build your workflow.</p>
+      </div>
     </section>
   </main>
 
