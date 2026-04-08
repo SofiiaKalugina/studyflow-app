@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyFlow | Student Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <p class="eyebrow">Smart student planning</p>
+      <h1>StudyFlow</h1>
+      <p class="subtitle">
+        A clean and focused planner for study, work, and personal tasks.
+      </p>
+    </section>
+
+    <section class="planner-card">
+      <form id="taskForm" class="task-form">
+        <input type="text" id="taskInput" placeholder="Enter a task..." required />
+
+        <select id="categorySelect">
+          <option value="Study">Study</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+        </select>
+
+        <select id="prioritySelect">
+          <option value="Low">Low priority</option>
+          <option value="Medium">Medium priority</option>
+          <option value="High">High priority</option>
+        </select>
+
+        <button type="submit">Add Task</button>
+      </form>
+
+      <div class="toolbar">
+        <button class="filter-btn active" data-filter="All">All</button>
+        <button class="filter-btn" data-filter="Study">Study</button>
+        <button class="filter-btn" data-filter="Work">Work</button>
+        <button class="filter-btn" data-filter="Personal">Personal</button>
+      </div>
+
+      <ul id="taskList" class="task-list"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
