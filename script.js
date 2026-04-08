@@ -6,6 +6,7 @@ const taskInput = document.getElementById("taskInput");
 const categorySelect = document.getElementById("categorySelect");
 const prioritySelect = document.getElementById("prioritySelect");
 const dueDateInput = document.getElementById("dueDateInput");
+const submitTaskBtn = document.getElementById("submitTaskBtn");
 
 const searchInput = document.getElementById("searchInput");
 const filterSelect = document.getElementById("filterSelect");

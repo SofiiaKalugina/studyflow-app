@@ -275,19 +275,12 @@ h1 {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
   border: 1px solid var(--line);
   border-radius: 14px;
   background-color: #241927;
   color: #fff4ef;
   padding: 14px 16px;
   outline: none;
-}
-
-.field select option,
-.select-group select option {
-  background-color: #1d1420;
-  color: #fff4ef;
 }
 
 .field select option,
